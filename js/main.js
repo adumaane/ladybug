@@ -57,11 +57,11 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("container3D").appendChild(renderer.domElement);
 
 // Add lights to the scene
-const topLight = new THREE.DirectionalLight(0xffffff, 5);
-topLight.position.set(5, 50, 5);
+const topLight = new THREE.DirectionalLight(0xffffff, 1);
+topLight.position.set(5, 5, 5);
 scene.add(topLight);
 
-const ambientLight = new THREE.AmbientLight(0x333333, 0);
+const ambientLight = new THREE.AmbientLight(0x333333, 2);
 scene.add(ambientLight);
 
 // Easing function for gradual animation stop
@@ -87,7 +87,7 @@ function animate() {
 
     // Interpolate object rotation (X-axis from -90 to 0 degrees)
     object.rotation.x = THREE.MathUtils.lerp(
-      THREE.MathUtils.degToRad(-90),
+      THREE.MathUtils.degToRad(-150),
       THREE.MathUtils.degToRad(0),
       easedProgress
     );
@@ -106,8 +106,8 @@ function animate() {
     }
   }
 
-  // Continuous rotation on Y-axis
-  if (object) {
+  // Continuous rotation on Y-axis after animation ends
+  if ( object) {
     object.rotation.y += 0.005; // Slow continuous Y-axis rotation
   }
 
