@@ -21,8 +21,6 @@ h3 {
   font-weight: 400;
   font-style: normal;
 }
-
-
 body {
     background-color: aqua;
 }
@@ -37,33 +35,8 @@ button:hover {
 
 }
 
-.grid {
-  width: 100%;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: auto;
-  flex: 1;
-}
- .rotating-image {
-    width: 100%;
- }
-
 img {
     background-color: inherit;
-}
-
-.item-1 {
-  grid-area: 1 / 2 / 1 / 2;
-}
-.item-2 {
-  grid-area: 3 / 1 / 5 / 3;
-}
-.item-3 {
-  grid-area: 7 / 2 / 8 / 3;
-}
-.item-4 {
-  grid-area: 7 / 7 / 8 / 8;
 }
 #container3D canvas {
     position: relative;
