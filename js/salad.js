@@ -37,43 +37,40 @@ progressBar.style.left = '50%';
 progressBar.style.transform = 'translate(-50%, -50%)';
 progressBar.style.width = '300px';
 progressBar.style.height = '20px';
-progressBar.style.backgroundColor = '#fff';
-progressBar.style.border = '1px solid #555';
-progressBar.innerHTML = `<div style="width: 0%; height: 100%; background: #0f0;"></div>`;
+progressBar.style.backgroundColor = '#000000';
+progressBar.style.border = '1px solid #ff0000';
+progressBar.innerHTML = `<div style="width: 0%; height: 100%; background: #ff0000;"></div>`;
 document.body.appendChild(progressBar);
 
-// Function to load GLTF models with progress
-function loadGLTFsWithProgress(models) {
+// Function to load a single GLTF model with progress
+function loadGLTFWithProgress(url) {
     const loader = new GLTFLoader();
-    let totalLoaded = 0;
-    const totalFiles = models.length;
-
-    return Promise.all(models.map(url => {
-        return new Promise((resolve, reject) => {
-            loader.load(
-                url,
-                (gltf) => {
-                    totalLoaded += 1; // Increment loaded count
-                    const percentage = Math.round((totalLoaded / totalFiles) * 100);
-                    progressBar.firstChild.style.width = `${percentage}%`; // Update progress bar
-                    console.log(`Loaded ${url}: ${percentage}%`);
-                    resolve(gltf);
-                },
-                (xhr) => {
-                    // Incremental progress for each file
-                    const fileProgress = (xhr.loaded / xhr.total) * 100;
-                    console.log(`${url}: ${fileProgress.toFixed(2)}% loaded`);
-                },
-                reject // Reject if loading fails
-            );
-        });
-    }));
+    return new Promise((resolve, reject) => {
+        loader.load(
+            url,
+            (gltf) => {
+                // Model fully loaded
+                progressBar.firstChild.style.width = `100%`;
+                console.log(`Model loaded: ${url}`);
+                resolve(gltf);
+            },
+            (xhr) => {
+                // Incremental loading progress
+                const percentage = (xhr.loaded / xhr.total) * 100;
+                progressBar.firstChild.style.width = `${percentage}%`; // Update progress bar
+                console.log(`Loading ${url}: ${percentage.toFixed(2)}%`);
+            },
+            (error) => {
+                // Error handling
+                console.error(`Error loading ${url}:`, error);
+                reject(error);
+            }
+        );
+    });
 }
 
-// GLTF models to load
-const gltfModelsToLoad = [
-    './models/salati-bizbiz/scene.gltf' // Update the path to your actual GLTF file
-];
+// GLTF model to load
+const modelURL = './models/salati-bizbiz/scene.gltf'; // Update the path to your actual GLTF file
 
 // Create a Three.JS Scene
 const scene = new THREE.Scene();
@@ -109,28 +106,26 @@ function adjustCameraZ() {
 // Call the function initially to set the camera position
 adjustCameraZ();
 
-// Load all GLTF models and hide loading screen when done
-loadGLTFsWithProgress(gltfModelsToLoad)
-    .then(models => {
-        models.forEach(gltf => {
-            object = gltf.scene;
-            object.traverse((node) => {
-                if (node.isMesh) {
-                    node.castShadow = true; // Enable shadow casting
-                    node.receiveShadow = true; // Enable shadow receiving
-                }
-            });
-            scene.add(object);
-            object.rotation.x = 1.4;
+// Load the GLTF model and hide loading screen when done
+loadGLTFWithProgress(modelURL)
+    .then(gltf => {
+        object = gltf.scene;
+        object.traverse((node) => {
+            if (node.isMesh) {
+                node.castShadow = true; // Enable shadow casting
+                node.receiveShadow = true; // Enable shadow receiving
+            }
         });
+        scene.add(object);
+        object.rotation.x = 1.4;
 
         // Hide the loading screen and progress bar
         loadingScene.style.display = 'none';
         progressBar.style.display = 'none';
-        console.log('All models loaded!');
+        console.log('Model fully loaded!');
     })
     .catch(error => {
-        console.error('Error loading models:', error);
+        console.error('Error loading the model:', error);
     });
 
 // Instantiate a new renderer and set its size

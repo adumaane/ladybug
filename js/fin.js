@@ -23,6 +23,23 @@ document.querySelectorAll('button').forEach(button => {
     });
 });
 
+// Show loading screen initially
+const loadingScene = document.getElementById('loadingScene');
+loadingScene.style.display = 'block';
+
+// Add a progress bar
+const progressBar = document.createElement('div');
+progressBar.style.position = 'absolute';
+progressBar.style.width = '300px';
+progressBar.style.height = '20px';
+progressBar.style.backgroundColor = '#555';
+progressBar.style.border = '1px solid #fff';
+progressBar.style.overflow = 'hidden';
+progressBar.style.top = '60%';
+progressBar.style.left = '50%';
+progressBar.style.transform = 'translate(-50%, -50%)';
+progressBar.innerHTML = `<div style="width: 0%; height: 100%; background: #0f0;"></div>`;
+loadingScene.appendChild(progressBar);
 
 // Create a Three.js scene
 const scene = new THREE.Scene();
@@ -40,37 +57,62 @@ let animationProgress = 0; // Animation progress (0 to 1)
 const controls = new OrbitControls(camera, document.getElementById("container3D"));
 controls.enableDamping = true; // Smooth camera controls
 
+// Function to load a GLTF model with progress
+function loadGLTFWithProgress(url) {
+    const loader = new GLTFLoader();
+    return new Promise((resolve, reject) => {
+        loader.load(
+            url,
+            (gltf) => {
+                // Model fully loaded
+                progressBar.firstChild.style.width = '100%'; // Complete progress bar
+                console.log(`Model loaded: ${url}`);
+                resolve(gltf);
+            },
+            (xhr) => {
+                // Incremental progress tracking
+                const progress = (xhr.loaded / xhr.total) * 100;
+                progressBar.firstChild.style.width = `${progress}%`; // Update progress bar
+                console.log(`Loading progress: ${progress.toFixed(2)}%`);
+            },
+            (error) => {
+                console.error('Error loading model:', error);
+                reject(error);
+            }
+        );
+    });
+}
+
 // Set the GLTF model to render
 const objToRender = "smallLadybug";
+const modelURL = `./models/${objToRender}/scene.gltf`;
 
-// Load the GLTF model
-const loader = new GLTFLoader();
-loader.load(
-  `./models/${objToRender}/scene.gltf`,
-  function (gltf) {
-    object = gltf.scene;
+// Load the GLTF model and handle actions
+loadGLTFWithProgress(modelURL)
+    .then(gltf => {
+        object = gltf.scene;
 
-    // Traverse and set materials to support transparency
-    object.traverse((child) => {
-      if (child.isMesh) {
-        child.material.transparent = true; // Enable transparency
-        child.material.opacity = 0; // Start fully transparent
-        child.frustumCulled = false; // Prevent culling
-      }
+        // Traverse and set materials to support transparency
+        object.traverse((child) => {
+            if (child.isMesh) {
+                child.material.transparent = true; // Enable transparency
+                child.material.opacity = 0; // Start fully transparent
+                child.frustumCulled = false; // Prevent culling
+            }
+        });
+
+        object.rotation.x = THREE.MathUtils.degToRad(-120); // Start at -120 degrees
+        object.position.y = -10; // Start below the frame
+        object.position.z = 0; // Centered in the frame
+        scene.add(object);
+
+        // Hide loading screen
+        loadingScene.style.display = 'none';
+        console.log('Model loaded and added to the scene!');
+    })
+    .catch(error => {
+        console.error('Error loading the model:', error);
     });
-
-    object.rotation.x = THREE.MathUtils.degToRad(-120); // Start at -120 degrees
-    object.position.y = -10; // Start below the frame
-    object.position.z = 0; // Centered in the frame
-    scene.add(object);
-  },
-  function (xhr) {
-    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-  },
-  function (error) {
-    console.error(error);
-  }
-);
 
 // Create a renderer and attach it to the DOM
 const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha: true for transparency
@@ -87,60 +129,60 @@ scene.add(ambientLight);
 
 // Easing function for gradual animation stop
 function easeOutQuad(t) {
-  return t * (2 - t); // Smooth deceleration
+    return t * (2 - t); // Smooth deceleration
 }
 
 // Animation loop
 function animate() {
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 
-  // Smooth zoom, object animation, and transparency
-  if (!zoomComplete && object) {
-    // Calculate eased progress (0 to 1)
-    animationProgress += 0.001; // Adjust speed as needed
-    const easedProgress = easeOutQuad(animationProgress); // Apply easing
+    // Smooth zoom, object animation, and transparency
+    if (!zoomComplete && object) {
+        // Calculate eased progress (0 to 1)
+        animationProgress += 0.001; // Adjust speed as needed
+        const easedProgress = easeOutQuad(animationProgress); // Apply easing
 
-    // Interpolate camera zoom
-    camera.position.z = THREE.MathUtils.lerp(50, 10, easedProgress);
+        // Interpolate camera zoom
+        camera.position.z = THREE.MathUtils.lerp(50, 10, easedProgress);
 
-    // Interpolate object position (float in from the bottom)
-    object.position.y = THREE.MathUtils.lerp(-10, 0, easedProgress);
+        // Interpolate object position (float in from the bottom)
+        object.position.y = THREE.MathUtils.lerp(-10, 0, easedProgress);
 
-    // Interpolate object rotation (X-axis from -90 to 0 degrees)
-    object.rotation.x = THREE.MathUtils.lerp(
-      THREE.MathUtils.degToRad(-150),
-      THREE.MathUtils.degToRad(0),
-      easedProgress
-    );
+        // Interpolate object rotation (X-axis from -90 to 0 degrees)
+        object.rotation.x = THREE.MathUtils.lerp(
+            THREE.MathUtils.degToRad(-150),
+            THREE.MathUtils.degToRad(0),
+            easedProgress
+        );
 
-    // Animate transparency
-    object.traverse((child) => {
-      if (child.isMesh) {
-        child.material.opacity = easedProgress; // Gradually increase opacity
-      }
-    });
+        // Animate transparency
+        object.traverse((child) => {
+            if (child.isMesh) {
+                child.material.opacity = easedProgress; // Gradually increase opacity
+            }
+        });
 
-    // End animation when progress reaches 1
-    if (animationProgress >= 1) {
-      zoomComplete = true;
-      animationProgress = 1; // Clamp to ensure smooth transition
+        // End animation when progress reaches 1
+        if (animationProgress >= 1) {
+            zoomComplete = true;
+            animationProgress = 1; // Clamp to ensure smooth transition
+        }
     }
-  }
 
-  // Continuous rotation on Y-axis after animation ends
-  if ( object) {
-    object.rotation.y += 0.005; // Slow continuous Y-axis rotation
-  }
+    // Continuous rotation on Y-axis after animation ends
+    if (object) {
+        object.rotation.y += 0.005; // Slow continuous Y-axis rotation
+    }
 
-  controls.update(); // Update camera controls
-  renderer.render(scene, camera); // Render the scene
+    controls.update(); // Update camera controls
+    renderer.render(scene, camera); // Render the scene
 }
 
 // Adjust renderer and camera on window resize
 window.addEventListener("resize", function () {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
 // Start the animation loop
