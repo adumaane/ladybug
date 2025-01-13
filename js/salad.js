@@ -51,7 +51,7 @@ function loadGLTFsWithSimulatedProgress(models) {
     // Simulate progress
     const interval = setInterval(() => {
         if (fakeProgress < 95) {
-            fakeProgress = Math.min(fakeProgress + 2, 95); // Increment progress up to 95%
+            fakeProgress = Math.min(fakeProgress + 0.5, 95); // Increment progress up to 95%
             progressBar.firstChild.style.width = `${fakeProgress}%`;
         }
     }, 100);
