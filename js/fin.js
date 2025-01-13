@@ -3,6 +3,27 @@ import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module
 import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
+// Sound file
+const sound = new Audio('../sounds/click-sound.wav');
+
+// Add event listeners to all buttons
+document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault(); // Stop default navigation
+        sound.play(); // Play the sound
+
+        const href = button.dataset.href;
+        if (href) {
+            setTimeout(() => {
+                window.location.href = href; // Navigate after the sound plays
+            }, 200); // Adjust delay based on sound duration
+        } else {
+            console.warn('No "data-href" found for button:', button);
+        }
+    });
+});
+
+
 // Create a Three.js scene
 const scene = new THREE.Scene();
 

@@ -1,5 +1,5 @@
 // Sound file
-const sound = new Audio('../sounds/click-sound.wav');
+const sound = new Audio('./sounds/click-sound.wav');
 
 // Add event listeners to all buttons
 document.querySelectorAll('button').forEach(button => {
