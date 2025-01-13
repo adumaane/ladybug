@@ -29,15 +29,41 @@ document.querySelectorAll('button').forEach(button => {
 const loadingScene = document.getElementById('loadingScene');
 loadingScene.style.display = 'block';
 
-// Function to load GLTF models
-function loadGLTFs(models) {
+// Add progress bar
+const progressBar = document.createElement('div');
+progressBar.style.position = 'absolute';
+progressBar.style.top = '50%';
+progressBar.style.left = '50%';
+progressBar.style.transform = 'translate(-50%, -50%)';
+progressBar.style.width = '300px';
+progressBar.style.height = '20px';
+progressBar.style.backgroundColor = '#fff';
+progressBar.style.border = '1px solid #555';
+progressBar.innerHTML = `<div style="width: 0%; height: 100%; background: #0f0;"></div>`;
+document.body.appendChild(progressBar);
+
+// Function to load GLTF models with progress
+function loadGLTFsWithProgress(models) {
     const loader = new GLTFLoader();
+    let totalLoaded = 0;
+    const totalFiles = models.length;
+
     return Promise.all(models.map(url => {
         return new Promise((resolve, reject) => {
             loader.load(
                 url,
-                resolve, // Resolve when the model is loaded
-                undefined, // Optional: Progress callback
+                (gltf) => {
+                    totalLoaded += 1; // Increment loaded count
+                    const percentage = Math.round((totalLoaded / totalFiles) * 100);
+                    progressBar.firstChild.style.width = `${percentage}%`; // Update progress bar
+                    console.log(`Loaded ${url}: ${percentage}%`);
+                    resolve(gltf);
+                },
+                (xhr) => {
+                    // Incremental progress for each file
+                    const fileProgress = (xhr.loaded / xhr.total) * 100;
+                    console.log(`${url}: ${fileProgress.toFixed(2)}% loaded`);
+                },
                 reject // Reject if loading fails
             );
         });
@@ -48,29 +74,6 @@ function loadGLTFs(models) {
 const gltfModelsToLoad = [
     './models/salati-bizbiz/scene.gltf' // Update the path to your actual GLTF file
 ];
-
-// Load all GLTF models and hide loading screen when done
-loadGLTFs(gltfModelsToLoad)
-    .then(models => {
-        models.forEach(gltf => {
-            object = gltf.scene;
-            object.traverse((node) => {
-                if (node.isMesh) {
-                    node.castShadow = true; // Enable shadow casting
-                    node.receiveShadow = true; // Enable shadow receiving
-                }
-            });
-            scene.add(object);
-            object.rotation.x = 1.4;
-        });
-
-        // Hide the loading screen
-        loadingScene.style.display = 'none';
-        console.log('All models loaded!');
-    })
-    .catch(error => {
-        console.error('Error loading models:', error);
-    });
 
 // Create a Three.JS Scene
 const scene = new THREE.Scene();
@@ -106,6 +109,30 @@ function adjustCameraZ() {
 // Call the function initially to set the camera position
 adjustCameraZ();
 
+// Load all GLTF models and hide loading screen when done
+loadGLTFsWithProgress(gltfModelsToLoad)
+    .then(models => {
+        models.forEach(gltf => {
+            object = gltf.scene;
+            object.traverse((node) => {
+                if (node.isMesh) {
+                    node.castShadow = true; // Enable shadow casting
+                    node.receiveShadow = true; // Enable shadow receiving
+                }
+            });
+            scene.add(object);
+            object.rotation.x = 1.4;
+        });
+
+        // Hide the loading screen and progress bar
+        loadingScene.style.display = 'none';
+        progressBar.style.display = 'none';
+        console.log('All models loaded!');
+    })
+    .catch(error => {
+        console.error('Error loading models:', error);
+    });
+
 // Instantiate a new renderer and set its size
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -136,21 +163,14 @@ const pointer = new THREE.Vector2();
 
 // Update cursor light position on mouse move using raycasting
 document.addEventListener("mousemove", (event) => {
-    // Convert cursor position to normalized device coordinates (NDC)
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // Use the raycaster to project the cursor position into the 3D world
     raycaster.setFromCamera(pointer, camera);
 
-    // Define a plane for the light to follow
-    const planeZ = new THREE.Plane(new THREE.Vector3(0, 0, -1), camera.position.z - 2); // Plane at z = camera.position.z - 2
+    const planeZ = new THREE.Plane(new THREE.Vector3(0, 0, -1), camera.position.z - 2);
     const intersectionPoint = new THREE.Vector3();
-
-    // Find the intersection point of the ray with the plane
     raycaster.ray.intersectPlane(planeZ, intersectionPoint);
-
-    // Update the light's position to the intersection point
     cursorLight.position.copy(intersectionPoint);
 });
 
@@ -158,7 +178,6 @@ document.addEventListener("mousemove", (event) => {
 function animate() {
     requestAnimationFrame(animate);
 
-    // Rotate the object on the Z-axis
     if (object) {
         object.rotation.y += 0.0001; // Adjust the rotation speed here
     }
@@ -173,7 +192,6 @@ window.addEventListener("resize", function () {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // Adjust camera z position on resize
     adjustCameraZ();
 });
 
