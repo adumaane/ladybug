@@ -10,7 +10,7 @@ const scene = new THREE.Scene();
 
 // Create a new camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 8; // Initial position
+camera.position.z = 2; // Initial position
 
 // Keep the 3D object on a global variable
 let object;
@@ -50,6 +50,12 @@ loader.load(
   `./models/${objToRender}/scene.gltf`,
   function (gltf) {
     object = gltf.scene;
+    object.traverse((node) => {
+      if (node.isMesh) {
+        node.castShadow = true; // Enable shadow casting
+        node.receiveShadow = true; // Enable shadow receiving (self-shadowing)
+      }
+    });
     scene.add(object);
     object.rotation.x = 1.4;
   },
@@ -64,15 +70,25 @@ loader.load(
 // Instantiate a new renderer and set its size
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true; // Enable shadow maps
+renderer.shadowMap.type = THREE.PCFShadowMap; // Use regular shadows (less demanding than soft shadows)
 document.getElementById("container3D").appendChild(renderer.domElement);
 
 // Add lights to the scene
-const ambientLight = new THREE.AmbientLight(0x333333, 2);
+const ambientLight = new THREE.AmbientLight(0x333333, 2); // Ambient light to illuminate the scene
 scene.add(ambientLight);
 
 // Add a point light to follow the cursor
-const cursorLight = new THREE.PointLight(0xffffff, 1.5, 5);
+const cursorLight = new THREE.PointLight(0xffffff, 1.5, 10); // Increased far value for better range
 cursorLight.position.set(0, 0, 10); // Initial position
+cursorLight.castShadow = true; // Enable shadow casting
+
+// Configure shadow map settings for performance
+cursorLight.shadow.mapSize.width = 1024; // Shadow resolution (1024x1024 for balance between quality and performance)
+cursorLight.shadow.mapSize.height = 1024;
+cursorLight.shadow.camera.near = 0.1; // Near clipping plane
+cursorLight.shadow.camera.far = 20;   // Far clipping plane (extend if shadows are cut off)
+cursorLight.shadow.bias = -0.001;     // Reduce shadow artifacts (shadow acne)
 scene.add(cursorLight);
 
 // Add raycaster and pointer
