@@ -24,8 +24,20 @@ document.querySelectorAll('button').forEach(button => {
 });
 
 // Show loading screen initially
-const loadingScene = document.getElementById('loadingScene');
-loadingScene.style.display = 'block';
+const loadingScene = document.createElement('div');
+loadingScene.style.position = 'fixed';
+loadingScene.style.top = '0';
+loadingScene.style.left = '0';
+loadingScene.style.width = '100vw';
+loadingScene.style.height = '100vh';
+loadingScene.style.background = 'rgba(0, 0, 0, 0.8)';
+loadingScene.style.color = 'white';
+loadingScene.style.display = 'flex';
+loadingScene.style.justifyContent = 'center';
+loadingScene.style.alignItems = 'center';
+loadingScene.style.zIndex = '1000';
+loadingScene.textContent = 'Loading...';
+document.body.appendChild(loadingScene);
 
 // Add a progress bar
 const progressBar = document.createElement('div');
@@ -70,8 +82,14 @@ function loadGLTFWithProgress(url) {
                 resolve(gltf);
             },
             (xhr) => {
-                // Incremental progress tracking
-                const progress = (xhr.loaded / xhr.total) * 100;
+                // Incremental progress tracking with fallback
+                let progress = 0;
+                if (xhr.total) {
+                    progress = (xhr.loaded / xhr.total) * 100;
+                } else {
+                    // Fallback: Increment progress if total is not available
+                    progress = Math.min((xhr.loaded / 1000000) * 100, 100); // Estimate size
+                }
                 progressBar.firstChild.style.width = `${progress}%`; // Update progress bar
                 console.log(`Loading progress: ${progress.toFixed(2)}%`);
             },
