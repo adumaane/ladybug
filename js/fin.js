@@ -4,7 +4,7 @@ import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/js
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
 // Sound file
-const sound = new Audio('../sounds/click-sound.wav');
+const sound = new Audio('./sounds/click-sound.wav');
 
 // Add event listeners to all buttons
 document.querySelectorAll('button').forEach(button => {
@@ -24,20 +24,8 @@ document.querySelectorAll('button').forEach(button => {
 });
 
 // Show loading screen initially
-const loadingScene = document.createElement('div');
-loadingScene.style.position = 'fixed';
-loadingScene.style.top = '0';
-loadingScene.style.left = '0';
-loadingScene.style.width = '100vw';
-loadingScene.style.height = '100vh';
-loadingScene.style.background = 'rgba(0, 0, 0, 0.8)';
-loadingScene.style.color = 'white';
-loadingScene.style.display = 'flex';
-loadingScene.style.justifyContent = 'center';
-loadingScene.style.alignItems = 'center';
-loadingScene.style.zIndex = '1000';
-loadingScene.textContent = 'Loading...';
-document.body.appendChild(loadingScene);
+const loadingScene = document.getElementById('loadingScene');
+loadingScene.style.display = 'block';
 
 // Add a progress bar
 const progressBar = document.createElement('div');
@@ -52,6 +40,46 @@ progressBar.style.left = '50%';
 progressBar.style.transform = 'translate(-50%, -50%)';
 progressBar.innerHTML = `<div style="width: 0%; height: 100%; background: #0f0;"></div>`;
 loadingScene.appendChild(progressBar);
+
+// Function to load GLTF models with simulated progress
+function loadGLTFsWithSimulatedProgress(models) {
+    const loader = new GLTFLoader();
+    let fakeProgress = 0;
+
+    // Simulate progress
+    const interval = setInterval(() => {
+        if (fakeProgress < 95) {
+            fakeProgress = Math.min(fakeProgress + 2, 95); // Increment progress up to 95%
+            progressBar.firstChild.style.width = `${fakeProgress}%`;
+        }
+    }, 100);
+
+    return Promise.all(
+        models.map(url => {
+            return new Promise((resolve, reject) => {
+                loader.load(
+                    url,
+                    (gltf) => {
+                        clearInterval(interval); // Stop simulated progress
+                        progressBar.firstChild.style.width = '100%'; // Complete progress bar
+                        resolve(gltf);
+                    },
+                    undefined, // Skip real progress tracking
+                    (error) => {
+                        clearInterval(interval); // Stop simulated progress on error
+                        console.error('Error loading model:', error);
+                        reject(error);
+                    }
+                );
+            });
+        })
+    );
+}
+
+// GLTF models to load
+const gltfModelsToLoad = [
+    './models/smallLadybug/scene.gltf' // Update the path to your actual GLTF file
+];
 
 // Create a Three.js scene
 const scene = new THREE.Scene();
@@ -69,67 +97,33 @@ let animationProgress = 0; // Animation progress (0 to 1)
 const controls = new OrbitControls(camera, document.getElementById("container3D"));
 controls.enableDamping = true; // Smooth camera controls
 
-// Function to load a GLTF model with progress
-function loadGLTFWithProgress(url) {
-    const loader = new GLTFLoader();
-    return new Promise((resolve, reject) => {
-        loader.load(
-            url,
-            (gltf) => {
-                // Model fully loaded
-                progressBar.firstChild.style.width = '100%'; // Complete progress bar
-                console.log(`Model loaded: ${url}`);
-                resolve(gltf);
-            },
-            (xhr) => {
-                // Incremental progress tracking with fallback
-                let progress = 0;
-                if (xhr.total) {
-                    progress = (xhr.loaded / xhr.total) * 100;
-                } else {
-                    // Fallback: Increment progress if total is not available
-                    progress = Math.min((xhr.loaded / 1000000) * 100, 100); // Estimate size
+// Load the GLTF model with simulated progress
+loadGLTFsWithSimulatedProgress(gltfModelsToLoad)
+    .then(models => {
+        models.forEach(gltf => {
+            object = gltf.scene;
+
+            // Traverse and set materials to support transparency
+            object.traverse((child) => {
+                if (child.isMesh) {
+                    child.material.transparent = true; // Enable transparency
+                    child.material.opacity = 0; // Start fully transparent
+                    child.frustumCulled = false; // Prevent culling
                 }
-                progressBar.firstChild.style.width = `${progress}%`; // Update progress bar
-                console.log(`Loading progress: ${progress.toFixed(2)}%`);
-            },
-            (error) => {
-                console.error('Error loading model:', error);
-                reject(error);
-            }
-        );
-    });
-}
+            });
 
-// Set the GLTF model to render
-const objToRender = "smallLadybug";
-const modelURL = `./models/${objToRender}/scene.gltf`;
-
-// Load the GLTF model and handle actions
-loadGLTFWithProgress(modelURL)
-    .then(gltf => {
-        object = gltf.scene;
-
-        // Traverse and set materials to support transparency
-        object.traverse((child) => {
-            if (child.isMesh) {
-                child.material.transparent = true; // Enable transparency
-                child.material.opacity = 0; // Start fully transparent
-                child.frustumCulled = false; // Prevent culling
-            }
+            object.rotation.x = THREE.MathUtils.degToRad(-120); // Start at -120 degrees
+            object.position.y = -10; // Start below the frame
+            object.position.z = 0; // Centered in the frame
+            scene.add(object);
         });
 
-        object.rotation.x = THREE.MathUtils.degToRad(-120); // Start at -120 degrees
-        object.position.y = -10; // Start below the frame
-        object.position.z = 0; // Centered in the frame
-        scene.add(object);
-
-        // Hide loading screen
+        // Hide the loading screen
         loadingScene.style.display = 'none';
-        console.log('Model loaded and added to the scene!');
+        console.log('All models loaded!');
     })
     .catch(error => {
-        console.error('Error loading the model:', error);
+        console.error('Error loading models:', error);
     });
 
 // Create a renderer and attach it to the DOM
