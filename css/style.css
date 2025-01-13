@@ -1,74 +1,86 @@
 * {
-    margin: 0;
-    border: none;
-    font-family: "Butterfly Kids", serif;
-    font-weight: 400;
-    font-size: 60px;
-    font-style: normal;
-    text-decoration: none;
+  margin: 0;
+  border: none;
+  font-family: "Butterfly Kids", serif;
+  font-weight: 400;
+  font-size: 60px;
+  font-style: normal;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+  color: aliceblue;
+  text-shadow: 0 0 10px black;
+  font-weight: 400;
+  font-style: normal;
 }
 
 h1 {
-  color: aliceblue;
-    font-family: "Sunshiney", serif;
-  font-weight: 400;
-  font-style: normal;
+  font-family: "Sunshiney";
 }
+
 h2 {
-  color: aliceblue;
-    font-family: "Ruge Boogie", serif;
-  font-weight: 400;
-  font-style: normal;
+  font-family: "Ruge Boogie";
 }
+
 h3 {
-  color: aliceblue;
-    font-family: "Butterfly Kids", serif;
-  font-weight: 400;
-  font-style: normal;
+  font-family: "Butterfly Kids";
 }
 
 body {
   background-color: black;
-  background-position: calc(100vw / -12)  calc(100vw / -20); /* Optional: aligns the starting point */
+  background-position: calc(100vw / -12) calc(100vw / -20);
+  /* Optional: aligns the starting point */
   /* background-attachment: fixed; Optional: keeps the background in place during scrolling */
 }
 
-.wallpaper, .wallpaper-empty {
-  background-repeat: repeat; /* Ensures the image repeats */
-  background-size: calc(100vw / 2); /* Adjust grid size based on screen dimensions */
+.wallpaper,
+.wallpaper-empty {
+  background-repeat: repeat;
+  /* Ensures the image repeats */
+  background-size: calc(100vw / 2);
+  /* Adjust grid size based on screen dimensions */
 }
-.wallpaper{
-    background-image: url('../images/wallpaper.PNG');
+
+.wallpaper {
+  background-image: url('../images/wallpaper.PNG');
 }
-.wallpaper-empty{
+
+.wallpaper-empty {
   background-image: url('../images/wallpaper_empty.png');
 }
 
 button {
-    background: none;
-    z-index: 1;
+  background: pink;
+  z-index: 1;
 }
+
 button:hover {
-    filter: drop-shadow(0 0 10px rgb(255, 255, 255))
-    drop-shadow(0 0 100px rgb(255, 255, 255));
+  filter: drop-shadow(0 0 10px rgb(255, 255, 255)) drop-shadow(0 0 100px rgb(255, 255, 255));
 
 }
 
 img {
-    background-color: inherit;
+  background-color: inherit;
 }
-#container3D canvas {
-    position: relative;
-    width: 100vw !important;
-    height: 100vh !important;
-    /* background-color: rgb(47, 47, 47); */
-    filter: drop-shadow(0 0 10px rgb(255, 255, 255));
 
-    z-index: -1;
+#container3D canvas {
+  position: relative;
+  width: 100vw !important;
+  height: 100vh !important;
+  /* background-color: rgb(47, 47, 47); */
+  filter: drop-shadow(0 0 10px rgb(255, 255, 255));
+
+  z-index: -1;
 }
-.rotating-container, .rotating-container > * {
+
+.rotating-container,
+.rotating-container>* {
   border: 3px solid rgba(8, 0, 255, 0);
 }
+
 .rotating-container {
   position: absolute;
   top: 0;
@@ -76,8 +88,10 @@ img {
   display: grid;
   width: 100vw;
   height: 100vw;
-  grid-template-columns: repeat(12, 1fr); /* 12 equal columns */
-  grid-auto-rows: 1fr; /* All rows are of equal height */
+  grid-template-columns: repeat(12, 1fr);
+  /* 12 equal columns */
+  grid-auto-rows: 1fr;
+  /* All rows are of equal height */
   z-index: -1;
   pointer-events: none;
 }
@@ -91,10 +105,12 @@ img {
 }
 
 .rotating-container .grid-item img {
-  width: 100%; /* Adjust size of the image */
+  width: 100%;
+  /* Adjust size of the image */
   height: auto;
   transform-origin: center;
 }
+
 /* .item-1 {
     grid-area: 1 / 2 / 2 / 3;
 }
@@ -104,3 +120,10 @@ img {
 .item-3 {
     grid-area: 6 / 2 / 8 / 4;
  } */
+
+.salati {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
