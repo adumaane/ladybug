@@ -32,13 +32,13 @@ const progressBar = document.createElement('div');
 progressBar.style.position = 'absolute';
 progressBar.style.width = '300px';
 progressBar.style.height = '20px';
-progressBar.style.backgroundColor = '#555';
-progressBar.style.border = '1px solid #fff';
+progressBar.style.backgroundColor = '#000000';
+progressBar.style.border = '5px solid #c60000';
 progressBar.style.overflow = 'hidden';
 progressBar.style.top = '60%';
 progressBar.style.left = '50%';
 progressBar.style.transform = 'translate(-50%, -50%)';
-progressBar.innerHTML = `<div style="width: 0%; height: 100%; background: #0f0;"></div>`;
+progressBar.innerHTML = `<div style="width: 0%; height: 100%; background:#c60000;"></div>`;
 loadingScene.appendChild(progressBar);
 
 // Function to load GLTF models with simulated progress
@@ -49,7 +49,7 @@ function loadGLTFsWithSimulatedProgress(models) {
     // Simulate progress
     const interval = setInterval(() => {
         if (fakeProgress < 95) {
-            fakeProgress = Math.min(fakeProgress + 2, 95); // Increment progress up to 95%
+            fakeProgress = Math.min(fakeProgress + 0.75, 95); // Increment progress up to 95%
             progressBar.firstChild.style.width = `${fakeProgress}%`;
         }
     }, 100);

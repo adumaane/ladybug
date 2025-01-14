@@ -10,32 +10,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Butterfly+Kids&family=Ruge+Boogie&family=Sunshiney&display=swap" rel="stylesheet">
 </head>
-<div id="loadingScene" style="display: none;">
-    <div class="dot-spinner">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-</div>
-<body class="wallpaper"></body>
 
-<div class="gallery">
-    <div class="image-container">
-        <img id="galleryImage" src="images/image.png" alt="Gallery Image">
+<body>
+    <div id="loadingScene" style="display: none;">
+        <div class="dot-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    <button class="arrow left" onclick="prevImage()">
-        <img id="prevIcon" src="images/ladybug_1.png">
-    </button>
-    <button id="nextButton" class="arrow right" onclick="nextImage()">
-        <img id="nextIcon" src="images/ladybug_1.png" alt="Next">
-    </button>
-</div>
+
+    <body class="wallpaper"></body>
+
+    <div class="gallery">
+        <div class="image-container">
+            <img id="galleryImage" src="images/image.png" alt="Gallery Image">
+        </div>
+        <button class="arrow left" onclick="prevImage()">
+            <img id="prevIcon" src="images/ladybug_1.png">
+        </button>
+        <button id="nextButton" class="arrow right" onclick="nextImage()">
+            <img id="nextIcon" src="images/ladybug_1.png" alt="Next">
+        </button>
+    </div>
 
     <script type="module" src="js/gallery.js"></script>
 </body>
+
 </html>
