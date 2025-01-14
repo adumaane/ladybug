@@ -75,9 +75,10 @@ function loadGLTFsWithSimulatedProgress(models) {
         })
     );
 }
+
 // GLTF models to load
 const gltfModelsToLoad = [
-    './models/smallLadybug/scene.gltf' // Update the path to your actual GLTF file
+    './models/salati-fin/scene.gltf' // Update the path to your actual GLTF file
 ];
 
 // Create a Three.js scene
@@ -91,6 +92,8 @@ camera.position.z = 100; // Start farther away for zoom effect
 let object; // To hold the loaded 3D model
 let zoomComplete = false; // Track zoom completion
 let animationProgress = 0; // Animation progress (0 to 1)
+let mixer; // For animation mixing
+let clock = new THREE.Clock(); // For tracking animation timing
 
 // OrbitControls for camera interaction
 const controls = new OrbitControls(camera, document.getElementById("container3D"));
@@ -101,6 +104,16 @@ loadGLTFsWithSimulatedProgress(gltfModelsToLoad)
     .then(models => {
         models.forEach(gltf => {
             object = gltf.scene;
+
+            // Check for animations and create a mixer
+            if (gltf.animations && gltf.animations.length > 0) {
+                mixer = new THREE.AnimationMixer(gltf.scene);
+
+                // Play all animations by default
+                gltf.animations.forEach((clip) => {
+                    mixer.clipAction(clip).play();
+                });
+            }
 
             // Traverse and set materials to support transparency
             object.traverse((child) => {
@@ -146,6 +159,12 @@ function easeOutQuad(t) {
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
+
+    // Update the animation mixer
+    if (mixer) {
+        const delta = clock.getDelta(); // Get time elapsed since the last frame
+        mixer.update(delta); // Update animations
+    }
 
     // Smooth zoom, object animation, and transparency
     if (!zoomComplete && object) {
@@ -198,4 +217,3 @@ window.addEventListener("resize", function () {
 
 // Start the animation loop
 animate();
-
