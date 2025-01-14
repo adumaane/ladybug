@@ -58,7 +58,9 @@ body {
   background-size: 60%;
   /* Ensures the image repeats */
 }
-
+.fuj {
+  background-image: url('../images/fuj.png');
+}
 
 
 button {
@@ -210,17 +212,34 @@ img {
 /* === TEXT TYPING === */
 
 #typingText {
-  position: absolute;
-  top: 10%;
-  left: calc(100vw / 4);
-  width: 75vw;
   font-family: "Ruge Boogie";
   font-size: 5vw;
-  white-space: pre;
+  text-align: center;
   color: rgb(255, 255, 255);
   text-shadow: 0 0 10px #000000;
   filter: drop-shadow(0 0 30px #ff0000);
   white-space: pre-line; /* Enable support for newlines */
+}
+.textBackground {
+  background-color: #d3cdcd;
+  position: absolute;
+  top: 7%;
+  left: calc(75vw / 2);
+  width: 35vw;
+  height: 75vw;
+  padding-top: 3vw;
+}
+@media (max-width: 800px) {
+  .textBackground {
+    top: 10%;
+    left: calc(25vw / 2);
+    width: 75vw;
+    height: 150vw;
+    padding-top: 6vw;
+  }
+  #typingText {
+  font-size: 10vw;
+  }
 }
 .cursor {
   display: inline-block;
@@ -232,4 +251,9 @@ img {
 }
 @keyframes blink {
   50% { background-color: transparent; }
+}
+
+.arrow img {
+  width: 24px; /* Adjust size */
+  height: 24px;
 }

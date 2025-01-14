@@ -74,39 +74,57 @@ const galleryItems = [
 let currentIndex = 0;
 
 // Function to update the displayed item
+// Update button icon in the updateGalleryItem function
 function updateGalleryItem() {
     const container = document.querySelector('.image-container');
+    const nextIcon = document.getElementById('nextIcon');
     container.innerHTML = ''; // Clear previous content
 
     const currentItem = galleryItems[currentIndex];
 
     if (currentItem.type === 'image') {
-        // Create and append an image
         const img = document.createElement('img');
         img.src = currentItem.src;
         img.alt = 'Gallery Item';
         img.id = 'galleryImage';
         container.appendChild(img);
     } else if (currentItem.type === 'video') {
-        // Create and append a video
         const video = document.createElement('video');
         video.src = currentItem.src;
-        video.controls = true; // Add video controls
-        video.autoplay = false; // Set autoplay behavior
+        video.controls = true;
+        video.autoplay = false;
         video.id = 'galleryVideo';
         container.appendChild(video);
     }
+
+    // Update the button icon based on the current index
+    if (currentIndex === galleryItems.length - 1) {
+        nextIcon.src = './images/image.png'; // Custom "end of gallery" icon
+        nextIcon.alt = 'Go to next page';
+    } else {
+        nextIcon.src = './images/small3dBug.png'; // Default "next" icon
+        nextIcon.alt = 'Next';
+    }
 }
 
-// Function to show the next item
+// Function to show the next item or navigate to salad.html
 window.nextImage = function nextImage() {
+    const nextButton = document.getElementById('nextButton');
+    const nextIcon = document.getElementById('nextIcon');
+
     if (currentIndex < galleryItems.length - 1) {
         currentIndex += 1; // Increment index only if it's not the last item
         updateGalleryItem();
     } else {
-        console.log('You are at the last item.');
+        console.log('Navigating to the next page: salad.html');
+
+        // Play sound before navigating
+        sound.play();
+        setTimeout(() => {
+            window.location.href = './salad.html'; // Navigate to the next page
+        }, 200); // Adjust delay based on sound duration
     }
-}
+};
 
 // Function to show the previous item
 window.prevImage = function prevImage() {

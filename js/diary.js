@@ -67,11 +67,26 @@ Promise.all([
 
         // Define each step explicitly with additions (+) and deletions (-)
         const textSteps = [
-            { type: "+", text: "Bērnībā ļoti aizrāvos ar biz" },        // Step 1: Type "Hello,"
-            { type: "+", text: "zxz", pause: 500 },       // Step 2: Add " wehjk" (mistake)
+            { type: "+", text: "I love ladybugs \n" },        // Step 1: Type "Hello,"
+            { type: "+", text: "zxz", },       // Step 2: Add " wehjk" (mistake)
             { type: "-", text: "zxz" },       // Step 3: Remove " wehjk"
-            { type: "+", text: "bizmārītēm.\n", pause: 1000 },       // Step 4: Add " world!" (correct text)
-            { type: "+", text: "bizmārītēm" }
+            { type: "+", text: "I love ladybugs\n" },       // Step 4: Add " world!" (correct text)
+            { type: "+", text: "They're so st" },
+            { type: "+", text: "ypif" },       // Step 2: Add " wehjk" (mistake)
+            { type: "-", text: "ypif" },
+            { type: "+", text: "upid\n" },
+            { type: "+", text: "They're so so cute!" },
+            { type: "-", text: "so cute!" },
+            { type: "+", text: "cute\n" },
+            { type: "+", text: "They so round\n" },
+            { type: "+", text: "I love them too <3\n" },
+            { type: "+", text: "\n" },
+            { type: "+", text: "I love ladybougess" },
+            { type: "-", text: "bougess" },
+            { type: "+", text: "bugs\n" },
+            { type: "+", text: "I love ladybugs \n" },
+            { type: "+", text: "How many dots\n" },
+            { type: "+", text: "Are on you!\n" }
         ];
 
         let currentStep = 0; // Current step index
