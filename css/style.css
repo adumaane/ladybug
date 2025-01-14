@@ -6,6 +6,7 @@
   font-size: 60px;
   font-style: normal;
   text-decoration: none;
+  box-sizing: border-box;
 }
 
 h1,
@@ -77,16 +78,6 @@ img {
   background-color: inherit;
 }
 
-#container3D canvas {
-  position: relative;
-  width: 100vw !important;
-  height: 100vh !important;
-  /* background-color: rgb(47, 47, 47); */
-  filter: drop-shadow(0 0 10px rgb(255, 255, 255));
-
-  z-index: -1;
-}
-
 .rotating-container,
 .rotating-container>* {
   border: 3px solid rgba(8, 0, 255, 0);
@@ -122,15 +113,38 @@ img {
   transform-origin: center;
 }
 
-/* .item-1 {
-    grid-area: 1 / 2 / 2 / 3;
+
+
+
+/* === GALLERY === */
+
+.image-container {
+  width: 100%;
+  height: calc(100vw / 2);
+  padding: 2vw;
+  background-color: #ff0000;
+  display: flex;
+  justify-content: center; /* Horizontally centers the content */
+  align-items: center; /* Vertically centers the content */
+  overflow: hidden; /* Ensures any part of the image outside the container is clipped */
 }
-.item-2 {
-    grid-area: 1 / 7 / 2 / 8;
+
+#galleryImage, #galleryVideo {
+  width: auto; /* Maintain aspect ratio */
+  height: 100%; /* Adjust image height to fill container */
+  object-fit: cover; /* Ensures the image fills the container without distortion */
 }
-.item-3 {
-    grid-area: 6 / 2 / 8 / 4;
- } */
+
+
+/* === 3D SNENES === */
+#container3D canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+  /* background-color: rgb(47, 47, 47); */
+  filter: drop-shadow(0 0 10px rgb(255, 255, 255));
+
+  z-index: -1;
+}
 
 .salati {
   position: absolute;
@@ -138,6 +152,9 @@ img {
   left: 0;
   z-index: -1;
 }
+
+
+/*  === LOADING CREEN === */
 
 .dot-spinner {
   display: flex;
@@ -190,11 +207,7 @@ img {
   50% { transform: scale(0.5); }
 }
 
-
-
-
-
-
+/* === TEXT TYPING === */
 
 #typingText {
   position: absolute;
