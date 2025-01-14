@@ -75,7 +75,6 @@ function loadGLTFsWithSimulatedProgress(models) {
         })
     );
 }
-
 // GLTF models to load
 const gltfModelsToLoad = [
     './models/smallLadybug/scene.gltf' // Update the path to your actual GLTF file
