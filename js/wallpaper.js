@@ -18,6 +18,48 @@ document.querySelectorAll('button').forEach(button => {
     });
 });
 
+// Retrieve the loading screen element
+const loadingScene = document.getElementById('loadingScene');
+if (loadingScene) {
+    // Show the loading screen initially
+    loadingScene.style.display = 'block';
+} else {
+    console.error('Loading scene element with ID "loadingScene" not found.');
+}
+
+// Function to load images
+function loadImages(images) {
+    return Promise.all(images.map(src => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve; // Resolve when the image is loaded
+            img.onerror = reject; // Reject if the image fails to load
+            img.src = src;
+        });
+    }));
+}
+
+// Define the resources to load
+const imagesToLoad = [
+    'images/wallpaper_ladybug.png',
+    'images/wallpaper_empty.png'
+];
+
+// Load all resources
+Promise.all([
+    loadImages(imagesToLoad)
+])
+    .then(() => {
+        // Hide the loading screen when all resources are loaded
+        if (loadingScene) {
+            loadingScene.style.display = 'none';
+        }
+        console.log('All resources loaded!');
+    })
+    .catch(error => {
+        console.error('Error loading resources:', error);
+    });
+
 
 
 const container = document.querySelector('.rotating-container');
@@ -90,3 +132,39 @@ document.addEventListener('mousemove', (event) => {
         image.style.transform = `rotateZ(${angleDegrees + baseRotation}deg)`;
     });
 });
+
+// Animation parameters
+let animationTime = 0; // Time tracker for the animation
+const animationDuration = 3000; // Duration of one full cycle (in milliseconds)
+const contrastRange = [1, 2.5]; // Normal to high contrast range
+const saturationRange = [1, 0.5]; // Normal to low saturation range
+
+function animateFilters() {
+    // Calculate animation progress (0 to 1, then back to 0)
+    const progress = (animationTime % animationDuration) / animationDuration;
+    const easedProgress = Math.sin(progress * Math.PI); // Eases the transition
+
+    // Calculate contrast and saturation values
+    const contrast = contrastRange[0] + easedProgress * (contrastRange[1] - contrastRange[0]);
+    const saturation = saturationRange[0] - easedProgress * (saturationRange[0] - saturationRange[1]);
+
+    // Apply the filters to each image
+    images.forEach(image => {
+        image.style.filter = `contrast(${contrast}) saturate(${saturation})`;
+    });
+
+    // Increment animation time and loop
+    animationTime += 16; // ~16ms per frame (~60FPS)
+    requestAnimationFrame(animateFilters); // Continue the animation
+}
+
+// Start the animation
+animateFilters();
+
+
+
+//  === WALLPAPER COLORS
+
+// Retrieve the body element
+const bodyElement = document.querySelector('body.wallpaper-empty');
+

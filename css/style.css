@@ -51,10 +51,21 @@ body {
 .wallpaper-empty {
   background-image: url('../images/wallpaper_empty.png');
 }
+.noise {
+  background-image: url('../images/noise.gif');
+  background-repeat: repeat;
+  background-size: 60%;
+  /* Ensures the image repeats */
+}
+
+
 
 button {
   background: pink;
   z-index: 1;
+}
+.bug {
+  background: none;
 }
 
 button:hover {
@@ -177,4 +188,35 @@ img {
 @keyframes dot-spin {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(0.5); }
+}
+
+
+
+
+
+
+
+#typingText {
+  position: absolute;
+  top: 10%;
+  left: calc(100vw / 4);
+  width: 75vw;
+  font-family: "Ruge Boogie";
+  font-size: 5vw;
+  white-space: pre;
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 10px #000000;
+  filter: drop-shadow(0 0 30px #ff0000);
+  white-space: pre-line; /* Enable support for newlines */
+}
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: rgb(255, 255, 255);
+  margin-left: 2px;
+  animation: blink 0.7s step-end infinite;
+}
+@keyframes blink {
+  50% { background-color: transparent; }
 }

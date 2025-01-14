@@ -199,3 +199,40 @@ window.addEventListener("resize", function () {
 
 // Start the animation loop
 animate();
+
+const bug = document.getElementById('bug');
+        const gameOverScreen = document.getElementById('gameOver');
+        let bugX = 100, bugY = 100;
+
+        // Update bug position to follow the cursor
+        window.addEventListener('mousemove', (event) => {
+            const cursorX = event.clientX;
+            const cursorY = event.clientY;
+
+            // Smoothly move bug towards cursor
+            bugX += (cursorX - bugX) * 0.05;
+            bugY += (cursorY - bugY) * 0.05;
+
+            // Update bug position
+            bug.style.transform = `translate(${bugX}px, ${bugY}px)`;
+            
+            // Check for collision with cursor
+            const dist = Math.sqrt(Math.pow(cursorX - bugX, 2) + Math.pow(cursorY - bugY, 2));
+            if (dist < 30) {
+                triggerGameOver();
+            }
+        });
+
+        // Show Game Over screen
+        function triggerGameOver() {
+            bug.style.display = 'none';
+            gameOverScreen.style.display = 'block';
+        }
+
+        // Restart Game
+        function restartGame() {
+            bug.style.display = 'block';
+            bugX = 100;
+            bugY = 100;
+            gameOverScreen.style.display = 'none';
+        }

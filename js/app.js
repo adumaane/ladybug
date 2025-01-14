@@ -59,3 +59,76 @@ Promise.all([
     .catch(error => {
         console.error('Error loading resources:', error);
     });
+
+
+//  == TEXT WRITING
+    const textContainer = document.getElementById('typingText');
+
+        // Define each step explicitly with additions (+) and deletions (-)
+        const textSteps = [
+            { type: "+", text: "Bērnībā ļoti aizrāvos ar biz" },        // Step 1: Type "Hello,"
+            { type: "+", text: "zxz", pause: 500 },       // Step 2: Add " wehjk" (mistake)
+            { type: "-", text: "zxz" },       // Step 3: Remove " wehjk"
+            { type: "+", text: "bizmārītēm.\n", pause: 1000 },       // Step 4: Add " world!" (correct text)
+            { type: "+", text: "bizmārītēm" }
+        ];
+
+        let currentStep = 0; // Current step index
+        let currentChar = 0; // Current character index for typing or deleting
+        let currentText = ""; // The text being displayed
+        let isPaused = false; // Track if a pause is in progress
+
+        function typeText() {
+            if (currentStep >= textSteps.length) {
+                return; // Stop the animation after the last step
+            }
+
+            const step = textSteps[currentStep]; // Current step
+            const targetText = step.text;       // Text to add or remove
+
+            if (!isPaused) {
+                if (step.type === "+") {
+                    // Typing (adding) characters
+                    currentText += targetText[currentChar]; // Add the next character
+                    currentChar++;
+
+                    if (currentChar === targetText.length) {
+                        // When addition is complete, initiate a pause (if defined)
+                        isPaused = true;
+                        setTimeout(() => {
+                            isPaused = false;
+                            currentStep++; // Move to the next step
+                            currentChar = 0; // Reset character index
+                            typeText(); // Continue after the pause
+                        }, step.pause || 0); // Use the defined pause or default to 0
+                        return;
+                    }
+                } else if (step.type === "-") {
+                    // Deleting (removing) characters
+                    currentText = currentText.slice(0, -1); // Remove the last character
+                    currentChar++;
+
+                    if (currentChar === targetText.length) {
+                        // When deletion is complete, initiate a pause (if defined)
+                        isPaused = true;
+                        setTimeout(() => {
+                            isPaused = false;
+                            currentStep++; // Move to the next step
+                            currentChar = 0; // Reset character index
+                            typeText(); // Continue after the pause
+                        }, step.pause || 0); // Use the defined pause or default to 0
+                        return;
+                    }
+                }
+            }
+
+            // Update the displayed text
+            textContainer.textContent = currentText;
+
+            // Adjust typing or deleting speed
+            const typingSpeed = step.type === "-" ? 150 : 170;
+            setTimeout(typeText, typingSpeed);
+        }
+
+        // Start the typing animation
+        typeText();
