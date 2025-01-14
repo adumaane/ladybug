@@ -62,7 +62,7 @@ body {
   background-image: url('../images/fuj.png');
 }
 
-
+/* === BUTTONS === */
 button {
   background: pink;
   z-index: 1;
@@ -153,6 +153,7 @@ img {
   top: 0;
   left: 0;
   z-index: -1;
+  pointer-events: none;
 }
 
 
