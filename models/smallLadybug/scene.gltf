@@ -383,7 +383,7 @@
 		},
 		{
 			"mimeType":"image/png",
-			"name":"LadyBug_body_BaseColor3",
+			"name":"LadyBug_body_BaseColor3-1",
 			"uri":"textures/LadyBug_body_BaseColor3-1.png"
 		},
 		{
@@ -393,8 +393,8 @@
 		},
 		{
 			"mimeType":"image/png",
-			"name":"ladybug_body_normal",
-			"uri":"textures/ladybug_body_normal.png"
+			"name":"ladybug1K_body_normal",
+			"uri":"textures/ladybug1K_body_normal.png"
 		},
 		{
 			"mimeType":"image/png",
@@ -403,13 +403,13 @@
 		},
 		{
 			"mimeType":"image/png",
-			"name":"ladybug_wings_diffuse2",
-			"uri":"textures/ladybug_wings_diffuse2.png"
+			"name":"ladybug1K_wings_diffuse",
+			"uri":"textures/ladybug1K_wings_diffuse.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"ladybug_wings_metallic-ladybug_wings_roughness",
-			"uri":"textures/ladybug_wings_metallic-ladybug_wings_roughness.png"
+			"name":"1KMETALLIC_ROUGHNESS",
+			"uri":"textures/1KMETALLIC_ROUGHNESS.png"
 		}
 	],
 	"accessors":[
