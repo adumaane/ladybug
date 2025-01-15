@@ -42,7 +42,7 @@ function loadImages(images) {
 // Define the resources to load
 const imagesToLoad = [
     './images/wallpaper_ladybug.png',
-    './images/wallpaper_empty1.png'
+    './images/wallpaper_empty2.png'
 ];
 
 // Load all resources

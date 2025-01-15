@@ -66,10 +66,21 @@ Promise.all([
 
 // List of gallery items (images and videos)
 const galleryItems = [
-    { type: 'image', src: './images/image.png' },
-    { type: 'image', src: './images/ladybug_1.png' },
+    { type: 'image', src: './images/ladybug-1.jpg' },
+    { type: 'image', src: './images/ladybug-2.jpg' },
+    { type: 'image', src: './images/ladybug-3.webp' },
+    { type: 'image', src: './images/ladybug-4.webp' },
+    { type: 'image', src: './images/ladybug-5.webp' },
+    { type: 'image', src: './images/ladybug-6.webp' },
+    { type: 'image', src: './images/ladybug-7.webp' },
+    { type: 'image', src: './images/ladybug-8.webp' },
+    { type: 'image', src: './images/ladybug-9.jpg' },
+    { type: 'image', src: './images/ladybug-10.webp' },
+    { type: 'image', src: './images/ladybug-11.webp' },
+    { type: 'image', src: './images/ladybug-12.webp' },
     { type: 'video', src: './videos/ladybug-in-salad.mp4' },
     { type: 'video', src: './videos/ladybug.mp4' },
+    { type: 'image', src: './images/ladybug-13.webp' },
 ];
 
 let currentIndex = 0;
