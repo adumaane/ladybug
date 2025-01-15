@@ -50,20 +50,20 @@ body {
 }
 
 .wallpaper {
-  background-image: url('../images/wallpaper.png');
+  background-image: url('./images/wallpaper.png');
 }
 
 .wallpaper-empty {
-  background-image: url('../images/wallpaper_empty.png');
+  background-image: url('./images/wallpaper_empty.png');
 }
 .noise {
-  background-image: url('../images/noise.gif');
+  background-image: url('./images/noise.gif');
   background-repeat: repeat;
   background-size: 60%;
   /* Ensures the image repeats */
 }
 .fuj {
-  background-image: url('../images/fuj.png');
+  background-image: url('./images/fuj.png');
 }
 
 /* === BUTTONS === */
