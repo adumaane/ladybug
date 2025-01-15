@@ -50,7 +50,7 @@ body {
 }
 
 .wallpaper {
-  background-image: url('./images/wallpaper.PNG');
+  background-image: url('../images/wallpaper.PNG');
 }
 
 .wallpaper-empty {
