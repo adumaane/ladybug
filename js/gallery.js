@@ -110,10 +110,10 @@ function updateGalleryItem() {
 
     // Update the button icon based on the current index
     if (currentIndex === galleryItems.length - 1) {
-        nextIcon.src = './images/image.png'; // Custom "end of gallery" icon
+        nextIcon.src = './images/arrow-last.png'; // Custom "end of gallery" icon
         nextIcon.alt = 'Go to next page';
     } else {
-        nextIcon.src = './images/small3dBug.png'; // Default "next" icon
+        nextIcon.src = './images/arrow-right.png'; // Default "next" icon
         nextIcon.alt = 'Next';
     }
 }

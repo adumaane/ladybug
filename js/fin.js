@@ -15,6 +15,12 @@ window.addEventListener('load', () => {
     });
 });
 
+// Hide the button during the loading screen
+const buttonFin = document.getElementById('button-fin');
+if (buttonFin) {
+    buttonFin.style.display = 'none'; // Initially hide the button
+}
+
 // Add event listeners to all buttons
 document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', (event) => {
@@ -143,6 +149,12 @@ loadGLTFsWithSimulatedProgress(gltfModelsToLoad)
 
         // Hide the loading screen
         loadingScene.style.display = 'none';
+
+        // Show the button after loading is complete
+        if (buttonFin) {
+            buttonFin.style.display = 'block';
+        }
+
         console.log('All models loaded!');
     })
     .catch(error => {

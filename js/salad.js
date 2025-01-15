@@ -8,6 +8,12 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 // Sound file
 const sound = new Audio('./sounds/click-sound.wav');
 
+// Hide the button initially
+const buttonFin = document.getElementById('button-fin');
+if (buttonFin) {
+    buttonFin.style.display = 'none'; // Initially hide the button
+}
+
 // Add event listeners to all buttons
 document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', (event) => {
@@ -100,6 +106,12 @@ loadGLTFsWithSimulatedProgress(gltfModelsToLoad)
 
         // Hide the loading screen
         loadingScene.style.display = 'none';
+
+        // Show the button after loading is complete
+        if (buttonFin) {
+            buttonFin.style.display = 'block';
+        }
+
         console.log('All models loaded!');
     })
     .catch(error => {
