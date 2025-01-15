@@ -173,7 +173,7 @@ function animate() {
         const easedProgress = easeOutQuad(animationProgress); // Apply easing
 
         // Interpolate camera zoom
-        camera.position.z = THREE.MathUtils.lerp(50, 10, easedProgress);
+        camera.position.z = THREE.MathUtils.lerp(50, 5, easedProgress);
 
         // Interpolate object position (float in from the bottom)
         object.position.y = THREE.MathUtils.lerp(-10, 0, easedProgress);
@@ -201,7 +201,7 @@ function animate() {
 
     // Continuous rotation on Y-axis after animation ends
     if (object) {
-        object.rotation.y += 0.005; // Slow continuous Y-axis rotation
+        object.rotation.y += -0.003; // Slow continuous Y-axis rotation
     }
 
     controls.update(); // Update camera controls
