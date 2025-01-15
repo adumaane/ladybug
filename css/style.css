@@ -24,10 +24,14 @@ h1 {
 
 h2 {
   font-family: "Ruge Boogie";
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 10px #000000;
+  filter: drop-shadow(0 0 30px #000000);
 }
 
 h3 {
   font-family: "Butterfly Kids";
+  
 }
 
 body {
@@ -46,7 +50,7 @@ body {
 }
 
 .wallpaper {
-  background-image: url('../images/wallpaper.PNG');
+  background-image: url('../images/wallpaper.png');
 }
 
 .wallpaper-empty {
@@ -64,11 +68,18 @@ body {
 
 /* === BUTTONS === */
 button {
-  background: pink;
+  background: none;
+  filter: drop-shadow(0 0 10px #000) drop-shadow(0 0 50px rgb(255, 0, 0));;
   z-index: 1;
 }
 .bug {
   background: none;
+  position: absolute;
+  bottom: 50px;
+  left: calc(50vw - 50px);
+}
+.bug img {
+  height: 100px;
 }
 
 button:hover {
@@ -119,22 +130,50 @@ img {
 
 
 /* === GALLERY === */
-
-.image-container {
-  width: 100%;
-  height: calc(100vw / 2);
-  padding: 2vw;
-  background-color: #ff0000;
-  display: flex;
-  justify-content: center; /* Horizontally centers the content */
-  align-items: center; /* Vertically centers the content */
-  overflow: hidden; /* Ensures any part of the image outside the container is clipped */
+.gallery {
+  width: 1225px;
+  margin-top: 10px;
+  margin-left: calc(50vw - 610px);
+  text-align: center;
 }
-
+.image-container {
+  border: 10px solid #dfcfcf;
+  background-color: #b485855d;
+  filter: drop-shadow(0 0 10px #000);
+  border-radius: 30px;
+  height: 60vh;
+  padding: 25px;
+  overflow: hidden; /* Ensures any part of the image outside the container is clipped */
+  display: flex;
+  justify-content: center;
+  
+}
 #galleryImage, #galleryVideo {
   width: auto; /* Maintain aspect ratio */
   height: 100%; /* Adjust image height to fill container */
-  object-fit: cover; /* Ensures the image fills the container without distortion */
+  object-fit: contain; /* Ensures the image fills the container without distortion */
+}
+@media (max-width: 1250px) {
+  .gallery {
+    width: auto;
+    margin-top: 10px;
+    margin-left: 2vw;
+  }
+  .image-container {
+    height: 60vh;
+    padding: 2vw;
+    margin-right: 2vw;
+  }
+  #galleryImage, #galleryVideo {
+    width: 100%; /* Maintain aspect ratio */
+    height: 100%; /* Adjust image height to fill container */
+  }
+}
+.button-container {
+  padding-left: 30px;
+  padding-right: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 
 
@@ -143,8 +182,7 @@ img {
   width: 100vw !important;
   height: 100vh !important;
   /* background-color: rgb(47, 47, 47); */
-  filter: drop-shadow(0 0 10px rgb(255, 255, 255));
-
+  filter: drop-shadow(0 0 10px rgb(0, 0, 0)) drop-shadow(0 0 100px rgb(0, 0, 0));
   z-index: -1;
 }
 
@@ -216,13 +254,16 @@ img {
   font-family: "Ruge Boogie";
   font-size: 5vw;
   text-align: center;
-  color: rgb(255, 255, 255);
+  color: rgb(251, 245, 216);
   text-shadow: 0 0 10px #000000;
-  filter: drop-shadow(0 0 30px #ff0000);
+  filter: drop-shadow(0 0 30px #000000);
   white-space: pre-line; /* Enable support for newlines */
 }
 .textBackground {
-  background-color: #d3cdcd;
+
+  background-color: #b485855d;
+  filter: drop-shadow(0 0 10px #000);
+  border-radius: 30px;
   position: absolute;
   top: 7%;
   left: calc(75vw / 2);
@@ -255,6 +296,6 @@ img {
 }
 
 .arrow img {
-  width: 24px; /* Adjust size */
-  height: 24px;
+  width: 100px; /* Adjust size */
+  height: 100px;
 }

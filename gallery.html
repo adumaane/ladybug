@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BizBiz</title>
+    <link rel="icon" type="image/x-icon" href="icons/bug2.ico">
     <link rel="stylesheet" href="css/style.css">
     <!-- === FONTS === -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,22 +23,27 @@
             <div></div>
             <div></div>
             <div></div>
-        </div>
-    </div>
+            </div>
+            </div>
+            
+            <body class="wallpaper"></body>
 
-    <body class="wallpaper"></body>
-
-    <div class="gallery">
-        <div class="image-container">
-            <img id="galleryImage" src="images/image.png" alt="Gallery Image">
-        </div>
-        <button class="arrow left" onclick="prevImage()">
-            <img id="prevIcon" src="images/ladybug_1.png">
-        </button>
-        <button id="nextButton" class="arrow right" onclick="nextImage()">
-            <img id="nextIcon" src="images/ladybug_1.png" alt="Next">
-        </button>
-    </div>
+            
+            <div class="gallery">
+                <h2 style="font-size: 100px; margin-bottom: 3vh; margin-top: 5vh; color: #ffb5b5;">Ladybug gallery</h2>
+                <div class="image-container">
+                    <img id="galleryImage" src="images/image.png" alt="Gallery Image">
+                </div>
+                <div class="button-container">
+                    <button class="arrow left" onclick="prevImage()">
+                        <img id="prevIcon" src="images/ladybug_1.png">
+                    </button>
+                    <button id="nextButton" class="arrow right" onclick="nextImage()">
+                        <img id="nextIcon" src="images/ladybug_1.png" alt="Next">
+                    </button>
+                </div>
+            
+            </div>
 
     <script type="module" src="js/gallery.js"></script>
 </body>
