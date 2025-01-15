@@ -31,7 +31,7 @@ document.querySelectorAll('button').forEach(button => {
 function startTypingAnimation(textContainer, href) {
     const textSteps = [
         { type: "+", text: "Emīlija Adumāne\n" },
-        { type: "+", text: "VKN 4\n" },
+        { type: "+", text: "VKN\n" },
         { type: "+", text: "2024\n" }
     ];
 

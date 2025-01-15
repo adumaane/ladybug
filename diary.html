@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Butterfly+Kids&family=Ruge+Boogie&family=Sunshiney&display=swap" rel="stylesheet">
 </head>
-<body class="wallpaper0">
+<body class="wallpaper">
     <div id="loadingScene" style="display: none;">
         <div class="dot-spinner">
             <div></div>
@@ -24,17 +24,19 @@
             <div></div>
         </div>
     </div>
-    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; height: 100vh;">
-        <div style="height: 100px;">
-            <h3 style="font-size: 10vw;">LADYBUG SALAD</h3>
-        </div>
-        <button id="button1" data-href="diary.html" >
-            <h3 style="text-shadow: 0 0 10px #f2adad;">Let's play with ladybugs!</h3>
-        </button>
-        
-    </div>
-    
 
+    <div class="textBackground">
+        <div id="typingText"></div>
+    </div>
+    <div class="cursor"></div>
+
+
+    <button id="button1" data-href="gallery.html" class="bug1">
+        <img src="images/ladybug_1.png" alt="lady">
+    </button>
+    <button id="button1" data-href="gallery.html" class="bug2">
+        <img src="images/ladybug_1.png" alt="lady">
+    </button>
     <script type="module" src="js/diary.js"></script>
 </body>
 

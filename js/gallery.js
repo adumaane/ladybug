@@ -78,7 +78,6 @@ const galleryItems = [
     { type: 'image', src: './images/ladybug-10.webp' },
     { type: 'image', src: './images/ladybug-11.webp' },
     { type: 'image', src: './images/ladybug-12.webp' },
-    { type: 'video', src: './videos/ladybug-in-salad.mp4' },
     { type: 'video', src: './videos/ladybug.mp4' },
     { type: 'image', src: './images/ladybug-13.webp' },
 ];
