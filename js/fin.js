@@ -115,11 +115,13 @@ loadGLTFsWithSimulatedProgress(gltfModelsToLoad)
                 });
             }
 
-            // Traverse and set materials to support transparency
+            // Traverse and set materials to support transparency and enable shadows
             object.traverse((child) => {
                 if (child.isMesh) {
                     child.material.transparent = true; // Enable transparency
                     child.material.opacity = 0; // Start fully transparent
+                    child.castShadow = true; // Allow the object to cast shadows
+                    child.receiveShadow = true; // Allow the object to receive shadows
                     child.frustumCulled = false; // Prevent culling
                 }
             });
@@ -141,14 +143,36 @@ loadGLTFsWithSimulatedProgress(gltfModelsToLoad)
 // Create a renderer and attach it to the DOM
 const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha: true for transparency
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true; // Enable shadow maps
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Use soft shadows
+
 document.getElementById("container3D").appendChild(renderer.domElement);
 
-// Add lights to the scene
-const topLight = new THREE.DirectionalLight(0xffffff, 1);
-topLight.position.set(5, 5, 5);
+// Add directional light to the scene
+const topLight = new THREE.DirectionalLight(0xffffff, 1); // Standard white light with intensity 1
+topLight.position.set(30, 10, 10); // Elevated position for better light distribution
+topLight.castShadow = true; // Enable shadow casting
+
+// Configure shadow map resolution for better quality
+topLight.shadow.mapSize.width = 2048; // Increase resolution for sharper shadows
+topLight.shadow.mapSize.height = 2048;
+
+// Configure the shadow camera to avoid clipping and improve coverage
+topLight.shadow.camera.near = 0.5; // Start rendering shadows closer to the light
+topLight.shadow.camera.far = 50; // Extend shadow rendering distance
+topLight.shadow.camera.left = -15; // Extend the shadow camera frustum left
+topLight.shadow.camera.right = 15; // Extend the shadow camera frustum right
+topLight.shadow.camera.top = 15; // Extend the shadow camera frustum top
+topLight.shadow.camera.bottom = -15; // Extend the shadow camera frustum bottom
+
+// Adjust shadow bias to prevent self-shadowing artifacts
+topLight.shadow.bias = -0.0005; // Fine-tune this value if artifacts persist
+
+// Add the light to the scene
 scene.add(topLight);
 
-const ambientLight = new THREE.AmbientLight(0x333333, 2);
+// Add ambient light to fill shadows softly
+const ambientLight = new THREE.AmbientLight(0x333333, 1.5); // Slightly stronger ambient light
 scene.add(ambientLight);
 
 // Easing function for gradual animation stop
