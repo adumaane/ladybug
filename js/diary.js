@@ -43,7 +43,7 @@ function loadImages(images) {
 const imagesToLoad = [
     './images/ladybug_1.png',
     './images/small3dBug.png',
-    './images/wallpaper.PNG'
+    './images/wallpaper1.png'
 ];
 
 // Load all resources
