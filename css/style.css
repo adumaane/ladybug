@@ -57,13 +57,10 @@ body {
   background-image: url('../images/wallpaper_empty1.png');
 }
 .noise {
-  background-image: url('./images/noise.gif');
+  background-image: url('../images/noise.gif');
   background-repeat: repeat;
   background-size: 60%;
   /* Ensures the image repeats */
-}
-.fuj {
-  background-image: url('./images/fuj.png');
 }
 
 /* === BUTTONS === */
@@ -81,6 +78,21 @@ button {
 .bug img {
   height: 100px;
 }
+
+.bug1 {
+  position: absolute;
+  right: 3vw;
+  top: 70%;
+}
+.bug2 {
+  position: absolute;
+  left: 3vw;
+  top: 10%;
+}
+.bug1 img, .bug2 img {
+  height: 30vw;
+}
+
 
 button:hover {
   filter: drop-shadow(0 0 10px rgb(255, 255, 255)) drop-shadow(0 0 100px rgb(255, 255, 255));
@@ -260,13 +272,12 @@ img {
   white-space: pre-line; /* Enable support for newlines */
 }
 .textBackground {
-
   background-color: #b485855d;
   filter: drop-shadow(0 0 10px #000);
   border-radius: 30px;
   position: absolute;
   top: 7%;
-  left: calc(75vw / 2);
+  left: calc(65vw / 2);
   width: 35vw;
   height: 75vw;
   padding-top: 3vw;
@@ -298,4 +309,31 @@ img {
 .arrow img {
   width: 100px; /* Adjust size */
   height: 100px;
+}
+
+
+.game-over {
+  position: absolute;
+  top: 25%;
+  left: 15vw;
+  width: 70vw;
+  height: 75vw;
+  padding-top: 3vw;
+  position: absolute;
+
+  text-align: center;
+}
+#typingText2 {
+  font-family: "Ruge Boogie";
+  font-size: 10vw;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 10px #000000;
+  filter: drop-shadow(0 0 30px #000000);
+  white-space: pre-line; /* Enable support for newlines */
+  }
+
+.textBackground2 {
+  width: 100%;
+  height: auto;
 }

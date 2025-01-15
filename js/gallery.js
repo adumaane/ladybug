@@ -69,6 +69,7 @@ const galleryItems = [
     { type: 'image', src: './images/image.png' },
     { type: 'image', src: './images/ladybug_1.png' },
     { type: 'video', src: './videos/ladybug-in-salad.mp4' },
+    { type: 'video', src: './videos/ladybug.mp4' },
 ];
 
 let currentIndex = 0;
