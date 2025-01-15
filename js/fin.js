@@ -3,14 +3,23 @@ import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module
 import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
-// Sound file
+// Sound file for button click
 const sound = new Audio('./sounds/click-sound.wav');
+
+// Ambient sound to play when the page loads
+const ambiance = new Audio('./sounds/ambiance.wav');
+ambiance.loop = true; // Enable looping for ambiance sound
+window.addEventListener('load', () => {
+    ambiance.play().catch(error => {
+        console.error('Error playing ambiance sound:', error);
+    });
+});
 
 // Add event listeners to all buttons
 document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', (event) => {
         event.preventDefault(); // Stop default navigation
-        sound.play(); // Play the sound
+        sound.play(); // Play the button click sound
 
         const href = button.dataset.href;
         if (href) {
